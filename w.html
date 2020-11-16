@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Demo of RevealFx</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+
+</head>
+
+<body>
+
+    <div class="flexy flexy--center">
+        <div class="flexy__items flexy__items--cyan">
+            <h2 class="content__title content__title--center">
+                <div id="rfx1" class="content__title__inner">It's wierd not to be weird</div><br />
+                <div id="rfx2" class="content__title__inner content__title__inner--offset-1">- John Lennon
+                </div>
+            </h2>
+        </div>
+        <div class="flexy__items flexy__items--magenta">
+                <div class="dual">
+                        <div class="dual__inner" id="rfx3">
+                            <div class="dual__half"></div>
+                        </div>
+                        <div class="dual__content">
+                            If you doubt your beliefs, you believe your doubts
+                        <br>If you fail to practice, you practice failure <span class="author">― Anonymous</span>
+                        </div>
+                    </div>
+        </div>
+
+        <div class="flexy__items flexy__items--yellow">
+            <h2 class="content__title content__title--center">
+                <div id="rfx4" class="content__title__inner">Be yourself,because everyone else is taken </div><br />
+                <br>
+            </h2>
+        </div>
+    </div>
+</body>
+</html>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+
+  <script src='https://cdn.jsdelivr.net/npm/animejs@3.0.1/lib/anime.min.js'></script>
+<script src='https://unpkg.com/revealfx@0.0.1/src/revealFx.js'></script>
+
+      <script id="rendered-js" >
+window.onload = showThemColors();
+
+
+function showThemColors() {
+  var counter = 0;
+  var rfx1 = document.querySelector('#rfx1');
+  var rfx2 = document.querySelector('#rfx2');
+  var rfx3 = document.querySelector('#rfx3');
+  var rfx4 = document.querySelector('#rfx4');
+
+  var revealSettings = {
+    bgColors: ['#111'],
+    duration: 600,
+    delay: 100,
+    direction: 'lr',
+    onStart: function (contentEl, revealerEl) {
+    },
+    onHalfway: function (contentEl, revealerEl) {
+      contentEl.style.opacity = 1;
+    },
+    onComplete: function () {
+      revealerEffect2.reveal();
+    } };
+
+  var revealSettings2 = {
+    bgColors: ['#111'],
+    duration: 400,
+    delay: 100,
+    direction: 'lr',
+    onHalfway: function (contentEl, revealerEl) {
+      contentEl.style.opacity = 1;
+    } };
+
+  var revealSettings3 = {
+    bgColors: ['#FFB900', '#FF8C00', '#F7630C', '#E74856', '#E81123', '#0078D7', '#0063B1'],
+    duration: 400,
+    delay: 100,
+    direction: 'lr',
+    onStart: function (contentEl, revealerEl) {
+      anime.remove(contentEl);
+      //  contentEl.style.opacity = 0;
+    },
+    onHalfway: function (contentEl, revealerEl) {
+      contentEl.style.opacity = 1;
+    } };
+
+
+
+  var revealerEffect = new RevealFx(rfx1, {
+    layers: 1,
+    isContentHidden: false,
+    revealSettings: revealSettings });
+
+  var revealerEffect2 = new RevealFx(rfx2, {
+    layers: 1,
+    isContentHidden: true,
+    revealSettings: revealSettings2 });
+
+
+  var splitContent = document.querySelector('.dual__content'),
+  revealEffect3 = new RevealFx(rfx3, {
+    isContentHidden: true,
+    layers: 4,
+    revealSettings: {
+      bgColors: ['#2c2c38', '#2c2c38', '#2c2c38', '#2c2c38'],
+      direction: 'rl',
+      duration: 800,
+      easing: 'easeInOutCirc',
+      coverArea: 50,
+      onStart: function (contentEl)
+      {
+        contentEl.style.opacity = 0;
+        splitContent.classList.remove('dual__content--show');
+      },
+      onHalfway: function (contentEl, revealerEl) {
+        contentEl.style.opacity = 1;
+        splitContent.classList.add('dual__content--show');
+      } } });
+
+
+  var revealerEffect4 = new RevealFx(rfx4, {
+    layers: 7,
+    isContentHidden: true,
+    revealSettings: revealSettings3 });
+
+
+
+  revealerEffect.reveal();
+  revealEffect3.reveal();
+  revealerEffect4.reveal();
+
+  btn1.onclick = function () {
+    revealSettings.direction = 'lr';
+    revealSettings2.direction = 'lr';
+    revealerEffect.reveal(revealSettings);
+  };
+  btn2.onclick = function () {
+    revealSettings.direction = 'rl';
+    revealSettings2.direction = 'rl';
+    revealerEffect.reveal(revealSettings);
+  };
+  btn3.onclick = function () {
+    revealSettings.direction = 'tb';
+    revealSettings2.direction = 'tb';
+    revealerEffect.reveal(revealSettings);
+  };
+  btn4.onclick = function () {
+    revealSettings.direction = 'bt';
+    revealSettings2.direction = 'bt';
+    revealerEffect.reveal(revealSettings);
+  };
+  btn5.onclick = function () {
+
+    revealSettings.bgColors[0] = '#283593';
+    revealSettings2.bgColors[0] = '#FBC02D';
+    revealerEffect.reveal(revealSettings);
+  };
+  btn6.onclick = function () {
+    revealEffect3.reveal();
+  };
+  btn7.onclick = function () {
+    revealSettings3.coverArea = Math.random(1) * 100 + 10;
+    revealSettings3.onComplete = function (contentEl, revealEl) {
+      btn7.innerText = 'cover area has changed to ' + revealSettings3.coverArea + '%';
+    };
+    revealerEffect4.reveal(revealSettings3);
+  };
+  btn8.onclick = function ()
+  {
+    revealSettings3 = resetTheSetting();
+    revealSettings3.duration = Math.random(1) * 1000 + 1000;
+    revealerEffect4.reveal(revealSettings3);
+  };
+  btn9.onclick = function ()
+  {
+    revealSettings3 = resetTheSetting();
+    revealSettings3.delay = Math.random(1) * 100 + 200;
+    revealerEffect4.reveal(revealSettings3);
+  };
+  btn10.onclick = function ()
+  {
+    var quotations = ['Inhale confidence,exhale doubts', 'Do it or watch yourself sad when others show it', 'Be yourself,because everyone else is taken'];
+
+    revealSettings3 = resetTheSetting();
+    revealSettings3.onHalfway = function (contentEl)
+    {
+      contentEl.innerText = quotations[counter++];
+    };
+    if (counter > quotations.length - 1)
+    counter = 0;
+    revealerEffect4.reveal(revealSettings3);
+  };
+  btn12.onclick = function () {
+    revealSettings3 = resetTheSetting();
+    var resetRevealSettings = resetTheSetting();
+    revealerEffect4.reveal(resetRevealSettings);
+  };
+  btn11.onclick = function () {
+    revealSettings3 = resetTheSetting();
+    revealSettings3.easing = 'cubicBezier(0.000, 0.810, 0.230, 0.990)';
+    revealerEffect4.reveal(revealSettings3);
+  };
+  resetTheSetting = function ()
+  {
+    return {
+      bgColors: ['#FFB900', '#FF8C00', '#F7630C', '#E74856', '#E81123', '#0078D7', '#0063B1'],
+      duration: 400,
+      delay: 100,
+      direction: 'lr',
+      onStart: function (contentEl, revealerEl) {
+        anime.remove(contentEl);
+        //  contentEl.style.opacity = 0;
+      },
+      onHalfway: function (contentEl, revealerEl) {
+        contentEl.style.opacity = 1;
+      } };
+
+  };
+}
+
+    </script>
